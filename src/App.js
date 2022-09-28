@@ -1,24 +1,45 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
+import HomePage from "./components/pages/HomePage";
+import CustomThemeProvider from "./CustomThemeProvider";
+import CartPage from "./components/pages/CartPage";
+import LoginPage from "./components/pages/LoginPage";
 function App() {
+  const [user, setUser] = useState();
+  const [shoppingCart, setShoppingCart] = useState([]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <CustomThemeProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <HomePage
+                user={user}
+                shoppingCart={shoppingCart}
+                setShoppingCart={setShoppingCart}
+              />
+            }
+          />
+          <Route
+            path="/sign-in"
+            element={<LoginPage user={user} setUser={setUser} />}
+          />
+          <Route
+            path="/cart"
+            element={
+              <CartPage
+                user={user}
+                shoppingCart={shoppingCart}
+                setShoppingCart={setShoppingCart}
+              />
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </CustomThemeProvider>
   );
 }
 
