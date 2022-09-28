@@ -8,7 +8,7 @@ function HomePage() {
     <Layout>
       <Box display="flex" flexDirection="column" alignItems="center">
         {productList.map((product) => (
-          <Box mb={6} bgcolor="pink">
+          <Box mb={6} key={product.id}>
             <ProductDisplay productData={product} />
           </Box>
         ))}

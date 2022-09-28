@@ -1,44 +1,26 @@
-import { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import HomePage from "./components/pages/HomePage";
-import CustomThemeProvider from "./CustomThemeProvider";
 import CartPage from "./components/pages/CartPage";
+import HomePage from "./components/pages/HomePage";
 import LoginPage from "./components/pages/LoginPage";
-function App() {
-  const [user, setUser] = useState();
-  const [shoppingCart, setShoppingCart] = useState([]);
+import { CartContextProvider } from "./contexts/cartContext";
+import { UserContextProvider } from "./contexts/userContext";
+import CustomThemeProvider from "./CustomThemeProvider";
 
+function App() {
   return (
     <CustomThemeProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <HomePage
-                user={user}
-                shoppingCart={shoppingCart}
-                setShoppingCart={setShoppingCart}
-              />
-            }
-          />
-          <Route
-            path="/sign-in"
-            element={<LoginPage user={user} setUser={setUser} />}
-          />
-          <Route
-            path="/cart"
-            element={
-              <CartPage
-                user={user}
-                shoppingCart={shoppingCart}
-                setShoppingCart={setShoppingCart}
-              />
-            }
-          />
-        </Routes>
-      </BrowserRouter>
+      <UserContextProvider>
+        <CartContextProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/sign-in" element={<LoginPage />} />
+              <Route path="/cart" element={<CartPage />} />
+            </Routes>
+          </BrowserRouter>
+        </CartContextProvider>
+      </UserContextProvider>
     </CustomThemeProvider>
   );
 }

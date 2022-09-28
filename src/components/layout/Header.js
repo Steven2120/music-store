@@ -4,16 +4,16 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import Switch from "@mui/material/Switch";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormGroup from "@mui/material/FormGroup";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { Avatar } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../../contexts/userContext";
 
 export default function MenuAppBar() {
+  const { user } = useUser();
+  const navigate = useNavigate();
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" bgcolor="red">
@@ -23,6 +23,7 @@ export default function MenuAppBar() {
             fontWeight="bold"
             component="div"
             sx={{ flexGrow: 1 }}
+            onClick={() => navigate("/")}
           >
             MyMusicStore.com
           </Typography>
@@ -33,8 +34,16 @@ export default function MenuAppBar() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               color="inherit"
+              onClick={() => navigate("/sign-in")}
             >
-              <AccountCircle />
+              {user ? (
+                <Avatar
+                  alt={`${user.firstName} ${user.lastName}`}
+                  src={user.profilePicture}
+                />
+              ) : (
+                <AccountCircle />
+              )}
             </IconButton>
             <IconButton
               size="large"
@@ -42,6 +51,7 @@ export default function MenuAppBar() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               color="inherit"
+              onClick={() => navigate("/cart")}
             >
               <ShoppingCartIcon />
             </IconButton>

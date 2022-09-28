@@ -1,14 +1,15 @@
 import { Button, TextField, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Layout from "../layout/Layout";
+import { useUser } from "../../contexts/userContext";
 import { sampleUserData } from "../../mockData";
+import Layout from "../layout/Layout";
 
-function LoginPage(props) {
-  const { user, setUser } = props;
+function LoginPage() {
+  const { user, setUser } = useUser();
   const navigate = useNavigate();
 
   return (
-    <Layout user={user}>
+    <Layout>
       <Box
         p={3}
         display="flex"
@@ -18,18 +19,22 @@ function LoginPage(props) {
         gap={1}
       >
         {user ? (
-          <Button>Log out</Button>
+          <Button onClick={() => setUser()}>Log out</Button>
         ) : (
           <>
-            <TextField id="outlined" label="Email" variant="outlined" />
-            <TextField id="outlined" label="Password" variant="outlined" />
+            <TextField id="outlined-basic" label="Email" variant="outlined" />
+            <TextField
+              id="outlined-basic"
+              label="Password"
+              variant="outlined"
+            />
             <Button
               onClick={() => {
                 setUser({ ...sampleUserData });
                 navigate("/");
               }}
             >
-              Sign In
+              Log In
             </Button>
           </>
         )}

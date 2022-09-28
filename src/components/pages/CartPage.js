@@ -1,15 +1,16 @@
 import { CreditCard, Delete, Home } from "@mui/icons-material";
 import { Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useCart } from "../../contexts/cartContext";
 import CartItem from "../CartItem";
 import Layout from "../layout/Layout";
 
-function CartPage(props) {
-  const { user, shoppingCart, setShoppingCart } = props;
+function CartPage() {
+  const { shoppingCart, setShoppingCart } = useCart();
   const navigate = useNavigate();
 
   const total = shoppingCart.reduce(
-    (tot, item) => tot + Number(item.price) * item.qty,
+    (toter, item) => toter + Number(item.price) * item.qty,
     0
   );
 
@@ -27,7 +28,7 @@ function CartPage(props) {
   };
 
   return (
-    <Layout user={user}>
+    <Layout>
       <Box
         width={1}
         display="flex"
@@ -46,14 +47,14 @@ function CartPage(props) {
         <Button
           variant="contained"
           startIcon={<CreditCard />}
-          sx={{ width: "250px" }}
+          sx={{ width: "200px" }}
         >
           <Box>Checkout</Box>
         </Button>
         <Button
           variant="contained"
           startIcon={<Delete />}
-          sx={{ width: "250px" }}
+          sx={{ width: "200px" }}
           onClick={() => setShoppingCart([])}
         >
           <Box>Empty Cart</Box>
@@ -61,10 +62,10 @@ function CartPage(props) {
         <Button
           variant="contained"
           startIcon={<Home />}
-          sx={{ width: "250px" }}
+          sx={{ width: "200px" }}
           onClick={() => navigate("/")}
         >
-          <Box>Home</Box>
+          <Box>Home Page</Box>
         </Button>
       </Box>
     </Layout>
