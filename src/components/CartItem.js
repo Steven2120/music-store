@@ -1,37 +1,54 @@
-import { DeleteForever } from "@mui/icons-material";
-import { Typography, Box, IconButton, Avatar } from "@mui/material";
+import { Card, CardMedia, Box, Typography, IconButton } from "@mui/material";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 function CartItem(props) {
-  const { item, deleteItem } = props;
+  const { cartItem, removeFromCart } = props;
+
   return (
-    <Box
-      display="flex"
-      width={0.8}
-      gap="10px"
-      alignItems="center"
-      border="1px solid gray"
-      borderRadius="5px"
-      p={2}
-    >
-      <Avatar alt={item.title} src={item.image} variant="square" />
-      <Box flexGrow={1}>
-        <Typography>{item.title}</Typography>
-        <Typography>
-          {`$${item.price.toLocaleString({
-            minimumFractionDigits: 2,
-          })}`}
-        </Typography>
-      </Box>
-      <Box>x{item.qty}</Box>
-      <Box>
-        <IconButton
-          aria-label="remove from the cart"
-          onClick={() => deleteItem(item)}
+    <Card>
+      <Box display="flex" width="100%">
+        <Box>
+          <CardMedia
+            component="img"
+            sx={{ width: 80, height: 80, p: 1 }}
+            image={cartItem.image}
+          />
+        </Box>
+        <Box
+          px={2}
+          display="flex"
+          flexDirection="column"
+          flexGrow={1}
+          justifyContent="center"
         >
-          <DeleteForever />
-        </IconButton>
+          <Box>
+            <Typography fontWeight="bold">{cartItem.title}</Typography>
+          </Box>
+          <Box>
+            <Typography fontWeight="bold">${cartItem.price / 100}</Typography>
+          </Box>
+        </Box>
+        <Box
+          px={2}
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+        >
+          <Typography fontWeight="bold">x{cartItem.quantity}</Typography>
+        </Box>
+        <Box
+          px={2}
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <IconButton onClick={() => removeFromCart(cartItem.id)}>
+            <DeleteForeverIcon />
+          </IconButton>
+        </Box>
       </Box>
-    </Box>
+    </Card>
   );
 }
 

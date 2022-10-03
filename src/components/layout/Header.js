@@ -1,61 +1,86 @@
-import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Avatar } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { useUser } from "../../contexts/userContext";
+import { Badge } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import {
+  shoppingCartContext,
+  useShoppingCart,
+} from "../../contexts/cartContext";
+import { userContext } from "../../contexts/userContext";
 
-export default function MenuAppBar() {
-  const { user } = useUser();
-  const navigate = useNavigate();
+export default function Header() {
+  const { user, signIn, signOut } = useContext(userContext);
+
+  const { shoppingCart } = useShoppingCart();
+
+  const cartCount = shoppingCart.reduce(
+    (acc, cartItem) => acc + cartItem.quantity,
+    0
+  );
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" bgcolor="red">
+      <AppBar position="static">
         <Toolbar>
-          <Typography
-            variant="h6"
-            fontWeight="bold"
-            component="div"
-            sx={{ flexGrow: 1 }}
-            onClick={() => navigate("/")}
-          >
-            MyMusicStore.com
-          </Typography>
-          <div>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              color="inherit"
-              onClick={() => navigate("/sign-in")}
-            >
+          <Box sx={{ flexGrow: 1, m: 1 }}>
+            <Link to="/">
+              <Typography variant="h6" fontWeight="bold" component="div">
+                MyMusicStore.com
+              </Typography>
+            </Link>
+          </Box>
+          <Box alignContent="center">
+            <Link to="/user">
               {user ? (
-                <Avatar
-                  alt={`${user.firstName} ${user.lastName}`}
-                  src={user.profilePicture}
-                />
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  color="inherit"
+                >
+                  <img
+                    style={{
+                      width: "20px",
+                      height: "20px",
+                      borderRadius: "20px",
+                      border: "2px solid white",
+                    }}
+                    src={user.profilePicture}
+                  />
+                </IconButton>
               ) : (
-                <AccountCircle />
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
               )}
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              color="inherit"
-              onClick={() => navigate("/cart")}
-            >
-              <ShoppingCartIcon />
-            </IconButton>
-          </div>
+            </Link>
+            <Link to="/cart">
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <Badge badgeContent={cartCount} color="secondary">
+                  <ShoppingCartIcon />
+                </Badge>
+              </IconButton>
+            </Link>
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>

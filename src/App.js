@@ -1,25 +1,26 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./App.css";
-import CartPage from "./components/pages/CartPage";
+import { useState } from "react";
 import HomePage from "./components/pages/HomePage";
-import LoginPage from "./components/pages/LoginPage";
-import { CartContextProvider } from "./contexts/cartContext";
-import { UserContextProvider } from "./contexts/userContext";
+import SignInPage from "./components/pages/LoginPage";
 import CustomThemeProvider from "./CustomThemeProvider";
+import CartPage from "./components/pages/CartPage";
+import UserContextProvider from "./contexts/userContext";
+import ShoppingCartContextProvider from "./contexts/cartContext";
+import "./App.css";
 
 function App() {
   return (
     <CustomThemeProvider>
       <UserContextProvider>
-        <CartContextProvider>
+        <ShoppingCartContextProvider>
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<HomePage />} />
-              <Route path="/sign-in" element={<LoginPage />} />
+              <Route path="/user" element={<SignInPage />} />
               <Route path="/cart" element={<CartPage />} />
             </Routes>
           </BrowserRouter>
-        </CartContextProvider>
+        </ShoppingCartContextProvider>
       </UserContextProvider>
     </CustomThemeProvider>
   );
