@@ -1,28 +1,18 @@
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Badge } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { useContext } from "react";
+import * as React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  shoppingCartContext,
-  useShoppingCart,
-} from "../../contexts/cartContext";
-import { userContext } from "../../contexts/userContext";
 
 export default function Header() {
-  const { user, signIn, signOut } = useContext(userContext);
+  // console.log('user prop in the header: ', user);
 
-  const { shoppingCart } = useShoppingCart();
-
-  const cartCount = shoppingCart.reduce(
-    (acc, cartItem) => acc + cartItem.quantity,
-    0
-  );
+  const user = useSelector((state) => state.user);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -67,6 +57,7 @@ export default function Header() {
                 </IconButton>
               )}
             </Link>
+
             <Link to="/cart">
               <IconButton
                 size="large"
@@ -75,9 +66,7 @@ export default function Header() {
                 aria-haspopup="true"
                 color="inherit"
               >
-                <Badge badgeContent={cartCount} color="secondary">
-                  <ShoppingCartIcon />
-                </Badge>
+                <ShoppingCartIcon />
               </IconButton>
             </Link>
           </Box>

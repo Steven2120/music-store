@@ -1,8 +1,12 @@
 import { Card, CardMedia, Box, Typography, IconButton } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromCart } from "../redux-state/cartSlice";
 
 function CartItem(props) {
-  const { cartItem, removeFromCart } = props;
+  const { cartItem } = props;
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
   return (
     <Card>
@@ -43,7 +47,11 @@ function CartItem(props) {
           justifyContent="center"
           alignItems="center"
         >
-          <IconButton onClick={() => removeFromCart(cartItem.id)}>
+          <IconButton
+            onClick={() => {
+              dispatch(removeFromCart(cartItem.id));
+            }}
+          >
             <DeleteForeverIcon />
           </IconButton>
         </Box>

@@ -1,28 +1,25 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useState } from "react";
+import "./App.css";
+import { Provider } from "react-redux";
 import HomePage from "./components/pages/HomePage";
 import SignInPage from "./components/pages/LoginPage";
 import CustomThemeProvider from "./CustomThemeProvider";
 import CartPage from "./components/pages/CartPage";
-import UserContextProvider from "./contexts/userContext";
-import ShoppingCartContextProvider from "./contexts/cartContext";
-import "./App.css";
+import store from "./redux-state/store";
 
 function App() {
   return (
-    <CustomThemeProvider>
-      <UserContextProvider>
-        <ShoppingCartContextProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/user" element={<SignInPage />} />
-              <Route path="/cart" element={<CartPage />} />
-            </Routes>
-          </BrowserRouter>
-        </ShoppingCartContextProvider>
-      </UserContextProvider>
-    </CustomThemeProvider>
+    <Provider store={store}>
+      <CustomThemeProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/user" element={<SignInPage />} />
+            <Route path="/cart" element={<CartPage />} />
+          </Routes>
+        </BrowserRouter>
+      </CustomThemeProvider>
+    </Provider>
   );
 }
 

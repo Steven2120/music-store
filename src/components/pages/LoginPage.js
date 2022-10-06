@@ -1,11 +1,14 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { useContext, useState } from "react";
-import { userContext } from "../../contexts/userContext";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { sampleUserData } from "../../mockData";
+import { signIn, signOut } from "../../redux-state/userSlice";
 import Layout from "../layout/Layout";
 
 function LoginPage() {
-  const { user, signIn, signOut } = useContext(userContext);
+  const user = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
 
   const [signInForm, setSignInForm] = useState({
     email: "",
@@ -13,17 +16,21 @@ function LoginPage() {
   });
 
   const onSubmit = () => {
-    signIn(sampleUserData);
+    dispatch(signIn(sampleUserData));
+  };
+
+  const handleSignOut = () => {
+    dispatch(signOut());
   };
 
   if (user) {
     return (
-      <Layout>
+      <Layout user={user}>
         <Box mb={4}>
           <Typography>Hi {user.firstName}!</Typography>
         </Box>
         <Box>
-          <Button variant="contained" onClick={signOut}>
+          <Button variant="contained" onClick={handleSignOut}>
             Sign out
           </Button>
         </Box>
@@ -40,10 +47,7 @@ function LoginPage() {
         <TextField
           id="email"
           label="Email"
-          value={
-            console.log("signInForm.email: ", signInForm.email) ||
-            signInForm.email
-          }
+          value={signInForm.email}
           onChange={(event) =>
             setSignInForm({ ...signInForm, email: event.target.value })
           }
